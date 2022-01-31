@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/jasonlvhit/gocron"
 	"github.com/joho/godotenv"
 	"github.com/mailgun/mailgun-go"
 	"github.com/streadway/amqp"
@@ -74,9 +75,6 @@ func main() {
 		log.Fatalf("Error loading .env file")
 	}
 
-	// c := cron.New()
-	// c.AddFunc("@every 2m", func() { processMessages() })
-	// c.Start()
-	processMessages()
-	fmt.Println("Done")
+	gocron.Every(2).Minutes().Do(processMessages)
+	<-gocron.Start()
 }
